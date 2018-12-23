@@ -1,0 +1,37 @@
+{
+  "name": "Regex_Text_Cleaner",
+  "version": "1.0.0",
+  "description": "A simple regex text cleaner",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --debug",
+    "dist": "electron-builder --mac"
+  },
+  "keywords": [
+    "regex",
+    "text"
+  ],
+  "author": "Wang Pei",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^3.0.10"
+  },
+  "buid": {
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    }
+  },
+  "dependencies": {
+    "iconv-lite": "^0.4.24"
+  }
+}

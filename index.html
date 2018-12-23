@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>正则文本整理器</title>
+		<style>
+		</style>
+		<script>window.$ = window.jQuery = require("./js/jquery-3.3.1.min.js")</script>
+		<script src="./js/layer/layer.js"></script>
+		<script src="./js/config.js"></script>
+		<script src="./js/main.js"></script>
+		<link rel="stylesheet" type="text/css" href="style/normalize.css">
+		<link rel="stylesheet" href="./style/main.css">
+	</head>
+	<body>
+		<header>
+			<h1>Regex Text Cleaner</h1>
+			<button id="reset">RESET Cleaner</button>
+		</header>
+		<section class="main">
+			<section class="toolbararea">
+				<div id="toolbars">
+					<!-- <div class="lines">
+						<h3>段落处理</h3>
+						<button id="combineBrokenLines">断句行合并</button>
+						<button id="paragraphIndent">段首缩进四格</button>
+						<button id="deleteNumAfterLetters">删除字母结尾后的数字</button>
+					</div> -->
+					<div class="userPlan">
+						<h3>用户策略</h3>
+						<div class="explain">右键单击上述按钮，可将其加入用户策略</div>
+						<div id="userPlan">
+							<ol>
+							</ol>
+						</div>
+						<div id="checkbox">
+							<input type="checkbox" id='useUserPlanOnPaste'>
+							<label for="useUserPlanOnPaste">粘贴时自动执行用户策略</label>
+							&nbsp;</br>
+							<input type="checkbox" id='automaticSelectOnPaste'>
+							<label for="automaticSelectOnPaste">粘贴时自动选中粘贴内容</label>
+						</div>
+						<button id="executeUserPlan">执行用户策略</button>
+						<button id="clearUserPlan">清空用户策略</button>
+						<button id="addToUserButtonFromUserPlan">打包为自定义按钮</button>
+					</div>
+					<div class="replace">
+						<h3>替换操作</h3>
+						<div id="replacer">
+							<div class="specialCharacters" id="regexCharacters">
+								<span class="fullstop" data-chr="\." title="半角句点">.</span><span class="dollar" data-chr="\$" title="半角美元符号">$</span><span class="caret" data-chr="\^" title="半角插入号">^</span><span class="leftBigBracket" data-chr="\{" title="半角左大括号">{</span><span class="rightBigBracket" data-chr="\}" title="半角右大括号">}</span><span class="leftSquareBracket" data-chr="\[" title="半角左中括号">[</span><span class="rightSquareBracket" data-chr="\]" title="半角右中括号">]</span><span class="leftBracket" data-chr="\(" title="半角左圆括号">(</span><span class="rightBracket" data-chr="\)" title="半角右圆括号">)</span><span class="backSlash" data-chr="\\" title="半角反斜线">\</span><span class="verticalLine" data-chr="\|" title="半角竖线">|</span><span class="questionMark" data-chr="\?" title="半角问号">?</span><span class="addMark" data-chr="\+" title="半角加号">+</span><span class="asterisk" data-chr="\*" title="半角星号">*</span><span class="anyCharacters" data-chr=".+" title="一个或多个任意字符，包含空白符号、数字、字母以及各种标点符号">任意字符</span><span class="anyLetters" data-chr="[a-zA-Z]+" title="一个或多个英文字母">任意字母</span><span class="anyNumbers" data-chr="\d+" title="一个或多个数字">任意数字</span><span class="anyWhiteSpaces" data-chr="[^\S\n]+" title="一个或多个空白符号，比如多个空格或Tab符号等">任意空白</span><span class="newLine" data-chr="\n" title="换行符，需要将位置选择为“文中”才会匹配到">换行符</span>
+							</div>
+							将
+							<select id='paraPosition'>
+								<option value="inLine" id="inLine">段中</option>
+								<option id='beforePara' value='beforePara'>段首</option>
+								<option id='afterPara' value='afterPara'>段尾</option>
+								<option id='inPara' value='inPara'>全文中</option>
+							</select>
+							的<input id='originalText' type="text">替换为<input type="text" id='intendedText'>
+							<div class="specialCharacters" id="replacerCharacters">
+								<span class="newLine" data-chr="\n">换行符</span><span class="matched" data-chr="$&">匹配到的内容</span><span class="stringBeforeMatched" data-chr="$`">匹配项前内容</span><span class="stringAfterMatched" data-chr="$'">匹配项后内容</span>
+							</div>
+							<button id="executeReplace">开始替换</button>
+							<button id="addToUserButtonFromReplace">+自定义按钮</button>
+							<button id="addToUserPlanFromReplace">+用户策略</button>
+						</div>
+					</div>
+					<div class="hack">
+						<h3>Hack 用法</h3>
+						<div id="replacer">
+							正则式：<input id='regex' type="text" placeholder='\d+(?=$)'>标志位：<input type="text" id='flag' placeholder='i, m, g'>函数式 (参数依序为 a,b,c,d,e,f,g）
+							<br/>请将函数体写入下方文本框：<textarea name="function" id="function"></textarea>
+							<button id="executeHack">开始 Hack</button>
+							<button id="addToUserButtonFromHack">+自定义按钮</button>
+							<button id="addToUserPlanFromHack">+用户策略</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="textarea">
+				<textarea id="editor"></textarea>
+				<div id="filearea">
+					<h3>批量文件操作</h3>
+					<div>
+						<div class="encodingOption">
+							<select id='encodings'>
+								<option value="utf8">编码格式</option>
+								<option id='utf8' value='utf8'>UTF-8</option>
+								<option id='gbk' value='gbk'>GBK</option>
+								<option id='unicode' value='unicode'>Unicode</option>
+							</select>
+						</div>
+						<div id="filelist" placeholder="请将 txt 文件或含有 txt 的文件夹拖到此处。"></div>
+						<div class="batchFileExecute" id="batchFileExe">执行<br>用户策略</div>
+					</div>
+				</div>
+			</section>
+			<section class="trackHistoryArea">
+				<div id="trackHistory">
+					<h3>历史跟踪</h3>
+					<div class="historyItem"> 删除字母结尾后的数字 </div>
+				</div>
+			</section>
+		</section>
+	<footer></footer>
+	<div id="toolbtn">
+		<button>加入用户策略</button>
+		<button>删除该按钮</button>
+	</div>
+</body>
+</html>
